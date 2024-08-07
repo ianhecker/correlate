@@ -36,6 +36,24 @@ func Median(numbers ...float64) float64 {
 	return median
 }
 
+func Min(numbers ...float64) float64 {
+	numbers2 := make([]float64, len(numbers))
+	copy(numbers2, numbers)
+
+	sort.Float64s(numbers2)
+
+	return numbers2[0]
+}
+
+func Max(numbers ...float64) float64 {
+	numbers2 := make([]float64, len(numbers))
+	copy(numbers2, numbers)
+
+	sort.Float64s(numbers2)
+
+	return numbers2[len(numbers2)-1]
+}
+
 func StandardDeviation(numbers ...float64) float64 {
 	mean := Mean(numbers...)
 
