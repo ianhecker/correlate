@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/ianhecker/correlate/internal/correlate"
 	"github.com/ianhecker/correlate/internal/oracle"
 )
 
@@ -41,9 +42,26 @@ func main() {
 	txns, err := oracle.ParseCSV(data)
 	checkErr(err)
 
-	for k, v := range txns {
-		fmt.Printf("index: %d data: %+v\n", k, v)
-	}
+	fmt.Printf("txns.ID: %+v\n", txns.ID)
+	fmt.Printf("txns.Date: %+v\n", txns.Date)
+	fmt.Printf("txns.Time: %+v\n", txns.Time)
+	fmt.Printf("txns.C1: %+v\n", txns.C1)
+	fmt.Printf("txns.C2: %+v\n", txns.C2)
+	fmt.Printf("txns.C1_USD: %+v\n", txns.C1_USD)
+	fmt.Printf("txns.C2_USD: %+v\n", txns.C2_USD)
+
+	fmt.Printf("txns.C1InUSD: %+v\n", txns.CostOfC1InUSD())
+	fmt.Printf("txns.C2InUSD: %+v\n", txns.CostOfC2InUSD())
+
+	c1StdDev := correlate.StandardDeviation(txns.C1...)
+	c2StdDev := correlate.StandardDeviation(txns.C2...)
+	c1USDStdDev := correlate.StandardDeviation(txns.CostOfC1InUSD()...)
+	c2USDStdDev := correlate.StandardDeviation(txns.CostOfC2InUSD()...)
+
+	fmt.Printf("c1 std dev: %f\n", c1StdDev)
+	fmt.Printf("c2 std dev: %f\n", c2StdDev)
+	fmt.Printf("c1 USD std dev: %f\n", c1USDStdDev)
+	fmt.Printf("c2 USD std dev: %f\n", c2USDStdDev)
 }
 
 func checkErr(e error) {
