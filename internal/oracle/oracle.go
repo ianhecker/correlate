@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func ParseCSV(data [][]string) (Transactions, error) {
+func ParseMatrixIntoTransactions(data [][]string) (Transactions, error) {
 	if len(data) < 2 {
 		return Transactions{}, fmt.Errorf("Data is not long enough")
 	}
