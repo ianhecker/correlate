@@ -7,10 +7,13 @@ import (
 )
 
 var correlateCmd = &cobra.Command{
-	Use:   "correlate",
-	Short: "Create statistics from with CSV files",
+	Use:   "correlate [input CSV] [output CSV]",
+	Short: "Create statistics with CSV files",
+	Args:  cobra.MinimumNArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
-		correlate(InputFile, OutputFile)
+		inputFile := args[0]
+		outputFile := args[1]
+		correlate(inputFile, outputFile)
 	},
 }
 
