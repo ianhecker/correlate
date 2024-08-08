@@ -3,7 +3,7 @@ package oracle
 import (
 	"fmt"
 
-	"github.com/ianhecker/correlate/internal/correlate"
+	"github.com/ianhecker/correlate/internal/compute"
 	"github.com/ianhecker/correlate/internal/matrix"
 )
 
@@ -22,11 +22,11 @@ func MakeBasicStatistics(
 ) BasicStatistics {
 	return BasicStatistics{
 		ID:                id,
-		Mean:              correlate.Mean(numbers...),
-		Median:            correlate.Median(numbers...),
-		Max:               correlate.Max(numbers...),
-		Min:               correlate.Min(numbers...),
-		StandardDeviation: correlate.StandardDeviation(numbers...),
+		Mean:              compute.Mean(numbers...),
+		Median:            compute.Median(numbers...),
+		Max:               compute.Max(numbers...),
+		Min:               compute.Min(numbers...),
+		StandardDeviation: compute.StandardDeviation(numbers...),
 	}
 }
 

@@ -1,4 +1,4 @@
-package correlate
+package compute
 
 import (
 	"math"
