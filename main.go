@@ -26,6 +26,25 @@ func readCSVFile(filepath string) ([][]string, error) {
 	return data, nil
 }
 
+func writeCSVFile(filepath string, matrix [][]string) error {
+	file, err := os.Create(filepath)
+	defer file.Close()
+
+	if err != nil {
+		log.Fatalln("Failed to open file", err)
+	}
+
+	w := csv.NewWriter(file)
+	defer w.Flush()
+
+	for _, row := range matrix {
+		if err := w.Write(row); err != nil {
+			return fmt.Errorf("error writing record to file: %w", err)
+		}
+	}
+	return nil
+}
+
 func main() {
 	data, err := readCSVFile("./chainlink.csv")
 	checkErr(err)
@@ -33,29 +52,10 @@ func main() {
 	txns, err := oracle.ParseCSV(data)
 	checkErr(err)
 
-	file, err := os.Create("out.csv")
-	defer file.Close()
-	if err != nil {
-		log.Fatalln("failed to open file", err)
-	}
+	stats := txns.Statistics()
 
-	w := csv.NewWriter(file)
-	defer w.Flush()
-
-	rows := [][]string{
-		{"ID", "Mean", "Median", "Max", "Min", "Standard Deviation"},
-		txns.TimeStatsToStrings(),
-		txns.C1StatsToStrings(),
-		txns.C2StatsToStrings(),
-		txns.CostOfC1InUSDStatsToStrings(),
-		txns.CostOfC2InUSDStatsToStrings(),
-	}
-
-	for _, row := range rows {
-		if err := w.Write(row); err != nil {
-			log.Fatalln("error writing record to file", err)
-		}
-	}
+	err = writeCSVFile("./chainlink-out.csv", stats)
+	checkErr(err)
 }
 
 func checkErr(e error) {
