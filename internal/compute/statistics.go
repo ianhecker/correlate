@@ -1,17 +1,16 @@
-package oracle
+package compute
 
 import (
 	"fmt"
 
-	"github.com/ianhecker/correlate/internal/compute"
 	"github.com/ianhecker/correlate/internal/matrix"
 )
 
 type BasicStatistics struct {
 	ID                string
+	Max               float64
 	Mean              float64
 	Median            float64
-	Max               float64
 	Min               float64
 	StandardDeviation float64
 }
@@ -22,22 +21,22 @@ func MakeBasicStatistics(
 ) BasicStatistics {
 	return BasicStatistics{
 		ID:                id,
-		Mean:              compute.Mean(numbers...),
-		Median:            compute.Median(numbers...),
-		Max:               compute.Max(numbers...),
-		Min:               compute.Min(numbers...),
-		StandardDeviation: compute.StandardDeviation(numbers...),
+		Max:               Max(numbers...),
+		Mean:              Mean(numbers...),
+		Median:            Median(numbers...),
+		Min:               Min(numbers...),
+		StandardDeviation: StandardDeviation(numbers...),
 	}
 }
 
 func (b BasicStatistics) Strings() []string {
 	return []string{
 		b.ID,
-		fmt.Sprintf("%f", b.Mean),
-		fmt.Sprintf("%f", b.Median),
-		fmt.Sprintf("%f", b.Max),
-		fmt.Sprintf("%f", b.Min),
-		fmt.Sprintf("%f", b.StandardDeviation),
+		fmt.Sprintf("%.10f", b.Max),
+		fmt.Sprintf("%.10f", b.Mean),
+		fmt.Sprintf("%.10f", b.Median),
+		fmt.Sprintf("%.10f", b.Min),
+		fmt.Sprintf("%.10f", b.StandardDeviation),
 	}
 }
 
