@@ -35,15 +35,16 @@ func MakeTxns(
 		etherToUSD[i] = txns[i].EtherToUSD
 		costInUSD[i] = gasFeeInEther[i] * etherToUSD[i]
 	}
+	var isUSD bool = true
 
 	return Txns{
-		Duration:       compute.MakeBasicStatistics("DURATION", duration...),
-		GasUsed:        compute.MakeBasicStatistics("GAS USED", gasUsed...),
-		GasPriceInGwei: compute.MakeBasicStatistics("GAS PRICE IN GWEI", gasPriceInGwei...),
-		GasFeeInGwei:   compute.MakeBasicStatistics("GAS FEE IN GWEI", gasFeeInGwei...),
-		GasFeeInEther:  compute.MakeBasicStatistics("GAS FEE IN ETHER", gasFeeInEther...),
-		EtherToUSD:     compute.MakeBasicStatistics("ETHER TO USD", etherToUSD...),
-		CostInUSD:      compute.MakeBasicStatistics("COST IN USD", costInUSD...),
+		Duration:       compute.MakeBasicStatistics("DURATION", !isUSD, duration...),
+		GasUsed:        compute.MakeBasicStatistics("GAS USED", !isUSD, gasUsed...),
+		GasPriceInGwei: compute.MakeBasicStatistics("GAS PRICE IN GWEI", !isUSD, gasPriceInGwei...),
+		GasFeeInGwei:   compute.MakeBasicStatistics("GAS FEE IN GWEI", !isUSD, gasFeeInGwei...),
+		GasFeeInEther:  compute.MakeBasicStatistics("GAS FEE IN ETHER", !isUSD, gasFeeInEther...),
+		EtherToUSD:     compute.MakeBasicStatistics("ETHER TO USD", isUSD, etherToUSD...),
+		CostInUSD:      compute.MakeBasicStatistics("COST IN USD", isUSD, costInUSD...),
 	}
 }
 
